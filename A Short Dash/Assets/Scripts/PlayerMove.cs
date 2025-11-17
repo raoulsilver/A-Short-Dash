@@ -72,6 +72,15 @@ public class PlayerMove : MonoBehaviour
 
     }
 
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("feather"))
+        {
+            numOfJumps = maxNumOfJumps;
+            spriteRenderer.color = custRed;
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("ground"))
@@ -83,11 +92,7 @@ public class PlayerMove : MonoBehaviour
             }
             
         }
-        if (collision.gameObject.CompareTag("feather"))
-        {
-            numOfJumps = maxNumOfJumps;
-            spriteRenderer.color = custRed;
-        }
+        
     }
     void OnCollisionExit2D(Collision2D collision)
     {
