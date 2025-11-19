@@ -17,40 +17,25 @@ public class PlayerMovement : MonoBehaviour
     Material blueMaterial,redMaterial;
     float frameCount;
     bool already = false;
+    float lastX = 0;
 
 
     Color custBlue = new Color(0.3304557f,0.725712f,0.8867924f);
     Color custRed = new Color(0.8862745f,0.3294118f,0.4891949f);
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         GetComponent<MeshRenderer>().material = redMaterial;
-        //spriteRenderer = GetComponent<SpriteRenderer>();
-        //spriteRenderer.color = custRed;
         numOfJumps = maxNumOfJumps;
         rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
         if (Input.GetKeyDown(KeyCode.R))
         {
             transform.position = restartTransform.position;
-            //spriteRenderer.color = custRed;
             numOfJumps = maxNumOfJumps;
         }
-        //rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (jumpTimeMultiplier-1) * Time.deltaTime;
-        /*if(rb.linearVelocity.y < 0)
-        {
-            rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier-1) * Time.deltaTime;
-        }
-        else if(rb.linearVelocity.y > 0)
-        {
-            //rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier-1) * Time.deltaTime;
-        }*/
         if (!grounded)
         {
             frameCount+= Time.deltaTime;
@@ -58,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
         if(!grounded && rb.linearVelocityY <0 && already == false)
         {
             already = true;
-            Debug.Log(frameCount*60);
+            //Debug.Log(frameCount*60);
             frameCount = 0;
         }
         if(Input.GetKeyDown(KeyCode.Space) && grounded)
@@ -88,15 +73,18 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
-        //rb.linearVelocity = new Vector3(moveSpeed,rb.linearVelocity.y,0);
+        rb.linearVelocity = new Vector3(moveSpeed,rb.linearVelocity.y,0);
         transform.rotation = Quaternion.identity;
         //transform.position = new Vector3(transform.position.x+(Time.deltaTime*speed),transform.position.y+yVelocity,transform.position.z);
         
     }
     void FixedUpdate()
     {
-        //Debug.Log(transform.position.y);
 
+    }
+    void LateUpdate()
+    {
+        
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -118,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
                 GetComponent<MeshRenderer>().material = redMaterial;
                 grounded = true;
                 already = false;
-                Debug.Log(frameCount*60);
+                //Debug.Log(frameCount*60);
             }
             
         }
