@@ -19,7 +19,13 @@ public class PlayerMovement : MonoBehaviour
     bool already = false;
     float lastX = 0;
 
+    float timerCount = 0;
+    float timerMax = 0.90909091f;
 
+    float lastX2 = 0;
+
+    [SerializeField]
+    GameManager gameManager;
     Color custBlue = new Color(0.3304557f,0.725712f,0.8867924f);
     Color custRed = new Color(0.8862745f,0.3294118f,0.4891949f);
     void Start()
@@ -27,14 +33,33 @@ public class PlayerMovement : MonoBehaviour
         GetComponent<MeshRenderer>().material = redMaterial;
         numOfJumps = maxNumOfJumps;
         rb = gameObject.GetComponent<Rigidbody2D>();
+        lastX2 = transform.position.x;
+    }
+
+    void Restart()
+    {
+        transform.position = restartTransform.position;
+        numOfJumps = maxNumOfJumps;
+        gameManager.Reset();
+        grounded = true;
     }
 
     void Update()
     {
+
+        // timer
+        timerCount += Time.deltaTime;
+        if (timerCount >= timerMax)
+        {
+
+            Debug.Log(transform.position.x - lastX2);
+            lastX2 = transform.position.x;
+            timerCount = 0;
+        }
+
         if (Input.GetKeyDown(KeyCode.R))
         {
-            transform.position = restartTransform.position;
-            numOfJumps = maxNumOfJumps;
+            Restart();
         }
         if (!grounded)
         {
@@ -46,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log(frameCount*60);
             frameCount = 0;
         }
-        if(Input.GetKeyDown(KeyCode.Space) && grounded)
+        if(Input.GetKey(KeyCode.Space) && grounded)
         {
             frameCount = 0;
             GetComponent<MeshRenderer>().material = blueMaterial;
@@ -73,14 +98,17 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
-        rb.linearVelocity = new Vector3(moveSpeed,rb.linearVelocity.y,0);
+       
+       //Vector3 movement = new vector3(moveSpeed * Time.deltaTime, transform.position.y, transform.position.z);
+       
+       //transform.position.x += moveSpeed * Time.deltaTime;
         transform.rotation = Quaternion.identity;
         //transform.position = new Vector3(transform.position.x+(Time.deltaTime*speed),transform.position.y+yVelocity,transform.position.z);
         
     }
     void FixedUpdate()
     {
-
+        rb.linearVelocity = new Vector3(moveSpeed,rb.linearVelocity.y,0);
     }
     void LateUpdate()
     {
@@ -109,6 +137,10 @@ public class PlayerMovement : MonoBehaviour
                 //Debug.Log(frameCount*60);
             }
             
+        }
+        if (collision.gameObject.CompareTag("spike"))
+        {
+            Restart();
         }
         
     }
