@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -106,9 +107,20 @@ public class PlayerMovement : MonoBehaviour
         //transform.position = new Vector3(transform.position.x+(Time.deltaTime*speed),transform.position.y+yVelocity,transform.position.z);
         
     }
+
+    void CheckHitWall()
+    {
+        if(transform.position.x-lastX == 0)
+        {
+            Restart();
+        }
+        lastX = transform.position.x;
+    }
+
     void FixedUpdate()
     {
         rb.linearVelocity = new Vector3(moveSpeed,rb.linearVelocity.y,0);
+        CheckHitWall();
     }
     void LateUpdate()
     {

@@ -18,4 +18,8 @@ public class FollowCam : MonoBehaviour
         pos.x = Mathf.Lerp(pos.x, target.position.x + 5f, Time.deltaTime * smooth);
         transform.position = pos;
     }
+    public void Reset()
+    {
+        transform.position = new Vector3(target.position.x,transform.position.y,transform.position.z);
+    }
 }
