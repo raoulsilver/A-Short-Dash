@@ -4,6 +4,7 @@ public class GameManager : MonoBehaviour
 {
 
     AudioSource audioSource;
+    FollowCam followCam;
 
 
 
@@ -11,6 +12,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
+        followCam = Camera.main.GetComponent<FollowCam>();
     }
 
     // Update is called once per frame
@@ -22,5 +24,6 @@ public class GameManager : MonoBehaviour
     {
         audioSource.Stop();
         audioSource.Play();
+        followCam.Reset();
     }
 }
