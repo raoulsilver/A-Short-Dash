@@ -44,11 +44,11 @@ public class FollowCam : MonoBehaviour
 
         Quaternion desiredRot = Quaternion.Euler(targetAngle, transform.rotation.eulerAngles.y, 0f);
 
-        transform.rotation = Quaternion.Lerp(
+        /*transform.rotation = Quaternion.Lerp(
             transform.rotation,
             desiredRot,
             Time.deltaTime * tiltSmooth
-        );
+        );*/
     }
 
     public void Reset()
