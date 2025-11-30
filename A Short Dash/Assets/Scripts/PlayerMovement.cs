@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
         if (timerCount >= timerMax)
         {
 
-            Debug.Log(transform.position.x - lastX2);
+            //Debug.Log(transform.position.x - lastX2);
             lastX2 = transform.position.x;
             timerCount = 0;
         }
