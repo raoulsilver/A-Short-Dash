@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,6 +10,9 @@ public class GameManager : MonoBehaviour
     FollowCam followCam;
     GameObject player;
     List<GameObject> feathers = new List<GameObject>();
+
+    public AudioClip song1;
+    public AudioClip song2;
 
 
 
@@ -18,6 +23,10 @@ public class GameManager : MonoBehaviour
         followCam = Camera.main.GetComponent<FollowCam>();
         player = GameObject.FindGameObjectWithTag("Player").gameObject;
         GameObject.FindGameObjectsWithTag("feather",feathers);
+        if(SceneManager.GetActiveScene().name == "First Zone Scene")
+        {
+            PlayerPrefs.SetInt("FinishedFirstLevel",1);
+        }
     }
 
     // Update is called once per frame
@@ -25,8 +34,18 @@ public class GameManager : MonoBehaviour
     {
         if (!audioSource.isPlaying)
         {
-            Debug.Log(player.transform.position.x);
+            //Debug.Log(player.transform.position.x);
         }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SuperReset();
+        }
+    }
+
+    private void SuperReset()
+    {
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene("Mountain Base Scene");
     }
     public void Reset()
     {
@@ -38,4 +57,11 @@ public class GameManager : MonoBehaviour
             feather.SetActive(true);
         }
     }
+
+    public void SetNewSong(AudioClip newClip)
+    {
+        audioSource.clip = newClip;
+    }
+
+
 }
