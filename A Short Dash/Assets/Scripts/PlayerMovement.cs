@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float moveSpeed,jumpVelocity,jumpTimeMultiplier,extraGravity;
 
-    private bool grounded;
+    public bool grounded;
     Rigidbody2D rb;
     SpriteRenderer spriteRenderer;
     [SerializeField]
