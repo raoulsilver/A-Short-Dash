@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -6,6 +7,7 @@ public class GameManager : MonoBehaviour
     AudioSource audioSource;
     FollowCam followCam;
     GameObject player;
+    List<GameObject> feathers = new List<GameObject>();
 
 
 
@@ -15,7 +17,7 @@ public class GameManager : MonoBehaviour
         audioSource = gameObject.GetComponent<AudioSource>();
         followCam = Camera.main.GetComponent<FollowCam>();
         player = GameObject.FindGameObjectWithTag("Player").gameObject;
-
+        GameObject.FindGameObjectsWithTag("feather",feathers);
     }
 
     // Update is called once per frame
@@ -31,5 +33,9 @@ public class GameManager : MonoBehaviour
         audioSource.Stop();
         audioSource.Play();
         followCam.Reset();
+        foreach(GameObject feather in feathers)
+        {
+            feather.SetActive(true);
+        }
     }
 }
