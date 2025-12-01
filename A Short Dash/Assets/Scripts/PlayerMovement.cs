@@ -10,8 +10,8 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rb;
     SpriteRenderer spriteRenderer;
     [SerializeField]
-    private int maxNumOfJumps;
-    private int numOfJumps;
+    private int maxNumOfExtraJumps;
+    private int numOfExtraJumps;
     [SerializeField]
     Transform restartTransform;
     [SerializeField]
@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         GetComponent<MeshRenderer>().material = redMaterial;
-        numOfJumps = maxNumOfJumps;
+        numOfExtraJumps = maxNumOfExtraJumps;
         rb = gameObject.GetComponent<Rigidbody2D>();
         lastX2 = transform.position.x;
     }
@@ -40,14 +40,29 @@ public class PlayerMovement : MonoBehaviour
     void Restart()
     {
         transform.position = restartTransform.position;
-        numOfJumps = maxNumOfJumps;
+        numOfExtraJumps = maxNumOfExtraJumps;
         gameManager.Reset();
         grounded = true;
     }
 
     void Update()
     {
-
+        //Extra Jump Check
+        if(Input.GetKeyDown(KeyCode.Space) && !grounded)
+        {
+            if(numOfExtraJumps > 0)
+            {
+                //Debug.Log("test");
+                rb.linearVelocity = new Vector3(rb.linearVelocity.x,jumpVelocity);
+                numOfExtraJumps -=1;
+                if(numOfExtraJumps <= 0)
+                {
+                    //Make Player Blue here
+                    //spriteRenderer.color = custBlue;
+                    GetComponent<MeshRenderer>().material = blueMaterial;
+                }
+            }
+        }
         // timer
         timerCount += Time.deltaTime;
         if (timerCount >= timerMax)
@@ -75,10 +90,17 @@ public class PlayerMovement : MonoBehaviour
         if(Input.GetKey(KeyCode.Space) && grounded)
         {
             frameCount = 0;
-            GetComponent<MeshRenderer>().material = blueMaterial;
+            if(numOfExtraJumps < 1)
+            {
+                GetComponent<MeshRenderer>().material = blueMaterial;
+            }
             grounded = false;
             rb.linearVelocity = new Vector3(rb.linearVelocity.x,jumpVelocity);
             //rb.AddForce(transform.up* (2.8f - 0f - (Physics2D.gravity * 1f) * .4f * .4f * 0.5f)/.4f));
+            if(numOfExtraJumps <= 0)
+            {
+                //Make Player Blue Here
+            }
 
         }
         if (!grounded)
@@ -87,18 +109,7 @@ public class PlayerMovement : MonoBehaviour
             vel.y -= extraGravity*Time.deltaTime;
             rb.linearVelocity = vel;
         }
-        else if(Input.GetKeyDown(KeyCode.Space) && !grounded)
-        {
-            if(numOfJumps > 0)
-            {
-                rb.linearVelocity = new Vector3(rb.linearVelocity.x,jumpVelocity);
-                numOfJumps -=1;
-                if(numOfJumps <= 0)
-                {
-                    //spriteRenderer.color = custBlue;
-                }
-            }
-        }
+        
        
        //Vector3 movement = new vector3(moveSpeed * Time.deltaTime, transform.position.y, transform.position.z);
        
@@ -131,8 +142,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("feather"))
         {
-            numOfJumps = maxNumOfJumps;
-            spriteRenderer.color = custRed;
+            numOfExtraJumps = maxNumOfExtraJumps;
+            collision.gameObject.SetActive(false);
+            //Make Player Red Here
+            GetComponent<MeshRenderer>().material = redMaterial;
         }
     }
 
@@ -143,7 +156,9 @@ public class PlayerMovement : MonoBehaviour
             Vector3 normal = collision.GetContact(0).normal;
             if(normal == Vector3.up)
             {
+                //Make Player Red Here
                 GetComponent<MeshRenderer>().material = redMaterial;
+                
                 grounded = true;
                 already = false;
                 //Debug.Log(frameCount*60);
@@ -156,10 +171,20 @@ public class PlayerMovement : MonoBehaviour
         }
         
     }
+
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("ground"))
+        {
+            grounded = true;
+        }  
+    }
+
     void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("ground"))
         {
+            //Debug.Log("test");
             grounded = false;
         }
     }
