@@ -26,4 +26,11 @@ public class LevelLoad : MonoBehaviour
             SceneManager.LoadScene(sceneToLoadNext);
         }
     }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            SceneManager.LoadScene(sceneToLoadNext);
+        }
+    }
 }

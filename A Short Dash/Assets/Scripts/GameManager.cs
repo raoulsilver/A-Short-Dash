@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         }
 
 
-        audioSource.Play(); // optional auto-start, won't break your old logic
+        //audioSource.Play(); // optional auto-start, won't break your old logic
     }
 
     void Update()
@@ -53,6 +53,19 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.M))
             SyncMusicToPlayerPos(); // press M to sync manually anytime
         // ======================================================
+
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(SceneManager.GetActiveScene().name == "Level 1")
+            {
+                SceneManager.LoadScene("Mountain Base Scene");
+            }
+            if(SceneManager.GetActiveScene().name == "Level 2")
+            {
+                SceneManager.LoadScene("First Zone Scene");
+            }
+        }
     }
 
 

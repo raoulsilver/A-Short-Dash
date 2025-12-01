@@ -10,6 +10,6 @@ public class PenguinAnimator : MonoBehaviour
     {
         anim.SetFloat("speed", Mathf.Abs(rb.linearVelocity.x)); // running
         anim.SetBool("isGrounded", playerMovement.grounded);  // grounded
-        anim.SetFloat("verticalVelocity", rb.linearVelocity.y); // jump vs glide
+        //anim.SetFloat("verticalVelocity", rb.linearVelocity.y); // jump vs glide
     }
 }

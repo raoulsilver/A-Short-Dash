@@ -6,7 +6,7 @@ shopNotFinishedFirstLevel	oneline	zzzzzzz...
 shopNotEnoughCoins	oneline	Sorry, you need to have 2 coins for the feather.
 shopBuyFeather	oneline	2 coins! Here's a golden feather!
 shopAlreadyBought	oneline	I'm all out of feathers, sorry.
-bunnyoneTutorial	oneline	Continue to the right here to go to the first level. You'll automatically move forward, just press the spacebar to jump. Get to the end and you'll get to another area.
+bunnyoneTutorial	oneline	Continue to the right to go to the first level. You'll automatically move forward, just press the spacebar to jump. Get to the end and you'll get to another area. Use the escape key to go to the last zone
 birdtwoTutorial	oneline	To play this level, you'll need a golden feather, the shopkeeper in the first zone sells them. With the feather, you can jump an extra time in the air, but you'll need to get feathers in the level to use the jump again.
 birdthreeIntro	oneline	I want more books to read
 birdthreeGiveBook	oneline	Thank you for the book!
