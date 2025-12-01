@@ -26,7 +26,7 @@ public class LoadTextManager : MonoBehaviour
     TMP_Text textBoxText;
     List<string> dialogueList = new List<string>();
     PlayerInteract playerInteract;
-    PlayerMovementAdvanced playerMovementAdvanced;
+    PlayerMovement3d playerMovementAdvanced;
     bool inDialogue;
     //string nameOfTextToLoad;
     //TMP_Text textBoxToDisplay;
@@ -43,7 +43,7 @@ public class LoadTextManager : MonoBehaviour
         TextBox.loadTextManager = this;
         textBoxText = textBoxObj.GetComponentInChildren<TMP_Text>();
         playerInteract = GameObject.FindFirstObjectByType<PlayerInteract>().GetComponent<PlayerInteract>();
-        playerMovementAdvanced = GameObject.FindFirstObjectByType<PlayerMovementAdvanced>().GetComponent<PlayerMovementAdvanced>();
+        playerMovementAdvanced = GameObject.FindFirstObjectByType<PlayerMovement3d>().GetComponent<PlayerMovement3d>();
         textBoxObj.SetActive(false);
         //textBoxToDisplay = gameObject.GetComponent<TMP_Text>();
         LoadDialogue();

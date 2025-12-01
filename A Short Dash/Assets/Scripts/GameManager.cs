@@ -25,8 +25,8 @@ public class GameManager : MonoBehaviour
         audioSource = gameObject.GetComponent<AudioSource>();
         followCam = Camera.main.GetComponent<FollowCam>();
         player = GameObject.FindGameObjectWithTag("Player").gameObject;
-        
         GameObject.FindGameObjectsWithTag("feather",feathers);
+        ResetFeathers();
         if(SceneManager.GetActiveScene().name == "First Zone Scene")
         {
             PlayerPrefs.SetInt("FinishedFirstLevel",1);
@@ -35,7 +35,25 @@ public class GameManager : MonoBehaviour
 
         //audioSource.Play(); // optional auto-start, won't break your old logic
     }
-
+    
+    void ResetFeathers()
+    {
+        if(PlayerPrefs.GetInt("Feathers") > 0)
+        {
+            foreach(GameObject feather in feathers)
+            {
+                feather.SetActive(true);
+            }
+        }
+        else
+        {
+            foreach(GameObject feather in feathers)
+            {
+                feather.SetActive(false);
+            }
+        }
+        
+    }
     void Update()
     {
         if (!audioSource.isPlaying)
@@ -80,10 +98,7 @@ public class GameManager : MonoBehaviour
         audioSource.Stop();
         audioSource.Play();
         followCam.Reset();
-        foreach(GameObject feather in feathers)
-        {
-            feather.SetActive(true);
-        }
+        ResetFeathers();
         // If reset respawns player → sync music to new position automatically
         SyncMusicToPlayerPos();
     }

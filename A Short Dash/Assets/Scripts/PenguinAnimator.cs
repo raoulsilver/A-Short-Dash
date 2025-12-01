@@ -4,7 +4,7 @@ public class PenguinAnimator : MonoBehaviour
 {
     public Animator anim;
     public Rigidbody2D rb;
-    public PlayerMovement playerMovement;
+    public PlayerMovement2d playerMovement;
 
     void Update()
     {
