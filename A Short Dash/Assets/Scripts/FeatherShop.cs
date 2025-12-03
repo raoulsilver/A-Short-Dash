@@ -1,7 +1,13 @@
+using System.Collections.Generic;
+using System.Data.Common;
+using System.IO;
+using Mono.Cecil.Cil;
 using UnityEngine;
 
 public class FeatherShop : TextWindowLoader
 {
+
+    
 
     void Start()
     {
@@ -11,6 +17,7 @@ public class FeatherShop : TextWindowLoader
     {
         CheckDialogueState();
         base.StartText();
+
         if(PlayerPrefs.GetInt("FinishedFirstLevel") == 1 && PlayerPrefs.GetInt("ShopAlreadyTalkedFirst") == 0)
         {
             PlayerPrefs.SetInt("ShopAlreadyTalkedFirst", 1);
@@ -22,6 +29,7 @@ public class FeatherShop : TextWindowLoader
             PlayerPrefs.SetInt("AlreadyBoughtFeather", 1);
         }
     }
+
 
     void CheckDialogueState()
     {
