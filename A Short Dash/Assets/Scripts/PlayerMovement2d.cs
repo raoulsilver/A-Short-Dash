@@ -32,7 +32,7 @@ public class PlayerMovement2d : MonoBehaviour
     void Start()
     {
         GetComponent<MeshRenderer>().material = redMaterial;
-        maxNumOfExtraJumps = PlayerPrefs.GetInt("Feathers");
+        maxNumOfExtraJumps = VariableManager.instance.CheckVariable("Feathers");
         numOfExtraJumps = maxNumOfExtraJumps;
         rb = gameObject.GetComponent<Rigidbody2D>();
         lastX2 = transform.position.x;

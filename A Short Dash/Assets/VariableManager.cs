@@ -1,11 +1,47 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System;
 
 public class VariableManager : MonoBehaviour
 {
-    public static Dictionary<string,int> changes=new Dictionary<string, int>();
+    public Dictionary<string,int> changes=new Dictionary<string, int>();
+    public static VariableManager instance;
 
+    void Awake(){
+        if(instance == null){
+            instance = this;
+        } else if(instance != this){
+            Destroy(this);
+        }
+        DontDestroyOnLoad(this);
+    }
+
+    public int CheckVariable(string varToCheck){
+        if (changes.ContainsKey(varToCheck))
+        {
+            return changes[varToCheck];
+        }
+        else
+        {
+            changes.Add(varToCheck,0);
+            return changes[varToCheck];
+        }
+    }
+
+    public void UpdateVariable(string varToCheck,int value)
+    {
+        if (changes.ContainsKey(varToCheck))
+        {
+            changes[varToCheck] = value;
+        }
+        else
+        {
+            changes.Add(varToCheck,0);
+            changes[varToCheck] = value;
+        }
+    }
 
     /*public string SaveVariable(string name,int value)
     {

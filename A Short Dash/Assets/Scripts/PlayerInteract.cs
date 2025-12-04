@@ -5,6 +5,7 @@ public class PlayerInteract : MonoBehaviour
     GameObject interactableObject;
     bool canInteract = false;
     public bool frozen = false;
+    bool collectingItem = false;
 
     void Start()
     {
@@ -18,7 +19,18 @@ public class PlayerInteract : MonoBehaviour
         {
             interactableObject.GetComponent<TextWindowLoader>().StartText();
         }
+        if (!frozen)
+        {
+            collectingItem = false;
+        }
     }
+
+    /*public void GetItem(string itemLineIdToDisplay,GameObject modelToDisplay)
+    {
+        LoadTextManager.instance.StartText(itemLineIdToDisplay);
+        collectingItem = true;
+        //VariableManager.instance.UpdateVariable(varToUpdate,1);
+    }*/
 
     void OnTriggerEnter(Collider other)
     {
