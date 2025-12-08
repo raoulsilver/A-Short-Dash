@@ -123,8 +123,8 @@ public class PlayerMovement2d : MonoBehaviour
 
     void CheckHitWall()
     {
-        //Debug.Log(transform.position.x-lastX);
-        if(transform.position.x-lastX <.05)
+        Debug.Log(transform.position.x-lastX);
+        if(transform.position.x-lastX <=0)
         {
             Restart();
         }
