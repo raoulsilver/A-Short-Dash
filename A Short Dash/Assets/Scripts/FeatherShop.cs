@@ -15,42 +15,42 @@ public class FeatherShop : TextWindowLoader
         CheckDialogueState();
         base.StartText();
 
-        if(VariableManager.instance.CheckVariable("FinishedFirstLevel") == 1 && VariableManager.instance.CheckVariable("ShopAlreadyTalkedFirst") == 0)
+        if(PlayerPrefs.GetInt("FinishedFirstLevel") == 1 && PlayerPrefs.GetInt("ShopAlreadyTalkedFirst") == 0)
         {
-            VariableManager.instance.UpdateVariable("ShopAlreadyTalkedFirst", 1);
+            PlayerPrefs.SetInt("ShopAlreadyTalkedFirst", 1);
         }
-        if(VariableManager.instance.CheckVariable("FinishedFirstLevel") == 1 && VariableManager.instance.CheckVariable("ShopAlreadyTalkedFirst") == 1 && VariableManager.instance.CheckVariable("Coins") >= 2)
+        if(PlayerPrefs.GetInt("FinishedFirstLevel") == 1 && PlayerPrefs.GetInt("ShopAlreadyTalkedFirst") == 1 && PlayerPrefs.GetInt("Coins") >= 2)
         {
-            VariableManager.instance.UpdateVariable("Coins",VariableManager.instance.CheckVariable("Coins")-2);
-            VariableManager.instance.UpdateVariable("Feathers",VariableManager.instance.CheckVariable("Feathers")+1);
-            VariableManager.instance.UpdateVariable("AlreadyBoughtFeather", 1);
+            PlayerPrefs.SetInt("Coins",PlayerPrefs.GetInt("Coins")-2);
+            PlayerPrefs.SetInt("Feathers",PlayerPrefs.GetInt("Feathers")+1);
+            PlayerPrefs.SetInt("AlreadyBoughtFeather", 1);
         }
     }
 
 
     void CheckDialogueState()
     {
-        if (VariableManager.instance.CheckVariable("FinishedFirstLevel")==0)
+        if (PlayerPrefs.GetInt("FinishedFirstLevel") == 0)
         {
             lineIdToDisplay = "shopNotFinishedFirstLevel";
             return;
         }
-        if(VariableManager.instance.CheckVariable("FinishedFirstLevel") == 1 && VariableManager.instance.CheckVariable("ShopAlreadyTalkedFirst") == 0)
+        if(PlayerPrefs.GetInt("FinishedFirstLevel") == 1 && PlayerPrefs.GetInt("ShopAlreadyTalkedFirst") == 0)
         {
             lineIdToDisplay = "shopFinishedFirstLevel";
             return;
         }
-        if(VariableManager.instance.CheckVariable("AlreadyBoughtFeather") == 1)
+         if(PlayerPrefs.GetInt("AlreadyBoughtFeather") == 1)
         {
             lineIdToDisplay = "shopAlreadyBought";
             return;
         }
-        if(VariableManager.instance.CheckVariable("FinishedFirstLevel") == 1 && VariableManager.instance.CheckVariable("ShopAlreadyTalkedFirst") == 1 && VariableManager.instance.CheckVariable("Coins") <2)
+        if(PlayerPrefs.GetInt("FinishedFirstLevel") == 1 && PlayerPrefs.GetInt("ShopAlreadyTalkedFirst") == 1 && PlayerPrefs.GetInt("Coins") <2)
         {
             lineIdToDisplay = "shopNotEnoughCoins";
             return;
         }
-        if(VariableManager.instance.CheckVariable("FinishedFirstLevel") == 1 && VariableManager.instance.CheckVariable("ShopAlreadyTalkedFirst") == 1 && VariableManager.instance.CheckVariable("Coins") >=2)
+        if(PlayerPrefs.GetInt("FinishedFirstLevel") == 1 && PlayerPrefs.GetInt("ShopAlreadyTalkedFirst") == 1 && PlayerPrefs.GetInt("Coins") >=2)
         {
             lineIdToDisplay = "shopBuyFeather";
             return;
