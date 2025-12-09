@@ -84,7 +84,7 @@ public class LoadTextManager : MonoBehaviour
     {
         if (inDialogue)
         {
-            Debug.Log(dialogueList.Count());
+            //Debug.Log(dialogueList.Count());
             if(dialogueList.Count() == 0)
             {
                 textBoxObj.GetComponent<TextBox>().inDialogue = false;
@@ -98,6 +98,7 @@ public class LoadTextManager : MonoBehaviour
             {
                 dialogueList.RemoveAt(0);
                 textBoxText.text = dialogueList[0];
+                textBoxText.color = Color.yellow;
                 dialogueList.RemoveAt(0);
                 return;
 
@@ -106,7 +107,16 @@ public class LoadTextManager : MonoBehaviour
             {
                 dialogueList.RemoveAt(0);
                 textBoxText.text = dialogueList[0];
+                textBoxText.color = Color.cyan;
                 dialogueList.RemoveAt(0);
+            }
+            else if (dialogueList[0] == "i")
+            {
+                dialogueList.RemoveAt(0);
+                textBoxText.text = dialogueList[0];
+                textBoxText.color = Color.green;
+                dialogueList.RemoveAt(0);
+                //play a sound and make an animation or something
             }
         }
         else
