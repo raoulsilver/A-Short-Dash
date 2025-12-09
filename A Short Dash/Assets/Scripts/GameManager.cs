@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").gameObject;
         GameObject.FindGameObjectsWithTag("feather",feathers);
         ResetFeathers();
+        PlayerPrefs.DeleteAll();
         /*if(SceneManager.GetActiveScene().name == "First Zone Scene")
         {
             PlayerPrefs.SetInt("FinishedFirstLevel",1);
@@ -38,7 +39,7 @@ public class GameManager : MonoBehaviour
     
     void ResetFeathers()
     {
-        if(VariableManager.instance.CheckVariable("Feathers") > 0)
+        if(PlayerPrefs.GetInt("Feathers") > 0)
         {
             foreach(GameObject feather in feathers)
             {
@@ -89,7 +90,7 @@ public class GameManager : MonoBehaviour
 
     private void SuperReset()
     {
-        VariableManager.instance.changes.Clear();
+        PlayerPrefs.DeleteAll();
         SceneManager.LoadScene("Mountain Base Scene");
     }
 

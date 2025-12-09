@@ -7,7 +7,7 @@ public class Coin : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if(VariableManager.instance.CheckVariable(coinName) == 1)
+        if(PlayerPrefs.GetInt(coinName) == 1)
         {
             gameObject.SetActive(false);
         }
@@ -23,8 +23,8 @@ public class Coin : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            VariableManager.instance.UpdateVariable(coinName,1);
-            VariableManager.instance.UpdateVariable("Coins",VariableManager.instance.CheckVariable("Coins")+1);
+            PlayerPrefs.SetInt(coinName,1);
+            PlayerPrefs.SetInt("Coins",PlayerPrefs.GetInt("Coins")+1);
             gameObject.SetActive(false);
         }
     }
@@ -32,8 +32,8 @@ public class Coin : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            VariableManager.instance.UpdateVariable(coinName,1);
-            VariableManager.instance.UpdateVariable("Coins",VariableManager.instance.CheckVariable("Coins")+1);
+            PlayerPrefs.SetInt(coinName,1);
+            PlayerPrefs.SetInt("Coins",PlayerPrefs.GetInt("Coins")+1);
             gameObject.SetActive(false);
         }
     }

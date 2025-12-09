@@ -2,9 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.Mathematics;
 
 public class PlayerMovement3d : MonoBehaviour
 {
+        [SerializeField]
+    float rotationSmooth;
+
+    //current angle that we want the player to rotate to
+    float currentAngle;
+
+    [SerializeField]
+    GameObject playerModel;
+    Quaternion targetRotation;
     [Header("Movement")]
     private float moveSpeed;
     public float walkSpeed;
@@ -86,15 +96,36 @@ public class PlayerMovement3d : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
-            MovePlayer();
-        
+        MovePlayer();
+        RotatePlayer();
+    }
+
+    private void RotatePlayer()
+    {
+        Vector3 movementInput = new Vector3(horizontalInput, 0, verticalInput).normalized;
+        float target = Mathf.Atan2(movementInput.x, movementInput.z) * Mathf.Rad2Deg;
+        playerModel.transform.rotation = Quaternion.Euler(0, target, 0);
     }
 
     private void MyInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
+        
+        
+        
+        //currentAngle = Mathf.SmoothDampAngle(currentAngle, target, ref currentAngle, rotationSmooth);
+        //playerModel.transform.rotation = Quaternion.Euler(0, currentAngle, 0);
+                //based on that rotation, find where we want to move to
+        //Quaternion rotateMove = Quaternion.Euler(0, target, 0);
+        //Debug.Log(currentAngle);
+        //currentAngle = Mathf.SmoothDampAngle(playerModel.transform.rotation.y,target,ref rb.linearVelocity.y,rotationSmooth);
+        
+        //playerModel.transform.rotation = Quaternion.Euler(0, currentAngle, 0);
+        //rb.MoveRotation(rotateMove * Time.deltaTime);
+
+        //playerModel.transform.rotation = Quaternion.RotateTowards(playerModel.transform.rotation,targetRotation, 5 * Time.deltaTime);
+
 
         // when to jump
         /*if(Input.GetKey(jumpKey) && readyToJump && grounded)

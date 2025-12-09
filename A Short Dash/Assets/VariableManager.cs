@@ -6,7 +6,7 @@ using System;
 
 public class VariableManager : MonoBehaviour
 {
-    public Dictionary<string,int> changes=new Dictionary<string, int>();
+    /*public Dictionary<string,int> changes=new Dictionary<string, int>();
     public static VariableManager instance;
 
     void Awake(){
