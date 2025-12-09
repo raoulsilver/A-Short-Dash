@@ -84,6 +84,11 @@ public class PlayerMovement3d : MonoBehaviour
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
 
         if (!frozen) MyInput();
+        if (frozen)
+        {
+            horizontalInput = 0; 
+            verticalInput = 0;
+        } 
         SpeedControl();
         StateHandler();
 
@@ -97,6 +102,7 @@ public class PlayerMovement3d : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
+        if(horizontalInput!= 0 || verticalInput!=0)
         RotatePlayer();
     }
 

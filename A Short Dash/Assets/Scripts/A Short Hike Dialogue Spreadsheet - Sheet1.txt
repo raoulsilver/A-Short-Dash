@@ -1,7 +1,7 @@
 ID	Type	Text to display
 testTextOneLine	oneline	Here is a sample text for one line
 tesTextDialogue	dialogue	o;This is text from the other;p;this is text from the player
-shopFinishedFirstLevel	oneline	I'm finally awake! At this store you can buy a feather for 2 coins.
+shopFinishedFirstLevel	dialogue	I'm finally awake! At this store you can buy a feather for 2 coins.
 shopNotFinishedFirstLevel	oneline	zzzzzzz...
 shopNotEnoughCoins	oneline	Sorry, you need to have 2 coins for the feather.
 shopBuyFeather	oneline	2 coins! Here's a golden feather!
@@ -11,3 +11,7 @@ birdtwoTutorial	oneline	To play this level, you'll need a golden feather, the sh
 birdthreeIntro	oneline	I want more books to read
 birdthreeGiveBook	oneline	Thank you for the book!
 foxoneBusTutorial	oneline	Move into the bus to go back to the previous level. You'll have to replay the last level though.
+youngerBunny2First	dialogue	o;isn't this a nice beach?;o;i usually like making sand castles;o;but i got bored of it;p;that's too bad;o;yeah now i don't really need this shovel anymore;o;so if you want it i'll give it to you;p;oh nice that'd be great;o;but i want something in exchange for it;o;i was trying to make a new dress out of the sand;o;but it wasn't really working out;o;so if you can get me something new to wear that would be sweet;p;hey sure why not
+youngerBunny2Second	dialogue	o;are you still looking for something i can wear?;p;yeah;o;cool;o;this shovel's burning a hole in my pocket
+youngerBunny2GiveCrown	dialogue	p;hey i think i got something you might be able to wear;o;oh nice what is it?;p;it's this flower crown;p;it was way too small for me;o;oooooh that's cute;p;would you trade it for your shovel;o;yeah sure;o;it's not even my shovel actually;p;oh what;o;yeah i just found it out here;o;but hey, finders keepers right?;p;uhh i gues so;o;it looks super old and sad though so i doubt anyone's missing it;p;fair enough;p;thanks for the shovel anyway;i;Got the Shovel!;
+youngerBunny2AfterCrown	dialogue	o;thanks again for the flower crown;p;yeah no problem
