@@ -3,6 +3,7 @@ using UnityEngine.UIElements;
 
 public class PlayerMovement2d : MonoBehaviour
 {
+    public bool frozen = false;
     [SerializeField]
     private float moveSpeed,jumpVelocity,jumpTimeMultiplier,extraGravity;
 
@@ -50,7 +51,7 @@ public class PlayerMovement2d : MonoBehaviour
     {
         
         //Extra Jump Check
-        if(Input.GetKeyDown(KeyCode.Space) && !grounded)
+        if(Input.GetKeyDown(KeyCode.Space) && !grounded && !frozen)
         {
             if(numOfExtraJumps > 0)
             {
@@ -75,10 +76,10 @@ public class PlayerMovement2d : MonoBehaviour
             timerCount = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        /*if (Input.GetKeyDown(KeyCode.R))
         {
             Restart();
-        }
+        }*/
         if (!grounded)
         {
             frameCount+= Time.deltaTime;
@@ -89,7 +90,7 @@ public class PlayerMovement2d : MonoBehaviour
             //Debug.Log(frameCount*60);
             frameCount = 0;
         }
-        if(Input.GetKey(KeyCode.Space) && grounded)
+        if(Input.GetKey(KeyCode.Space) && grounded && !frozen)
         {
             frameCount = 0;
             if(numOfExtraJumps < 1)
@@ -123,7 +124,7 @@ public class PlayerMovement2d : MonoBehaviour
 
     void CheckHitWall()
     {
-        Debug.Log(transform.position.x-lastX);
+        //Debug.Log(transform.position.x-lastX);
         if(transform.position.x-lastX <=0)
         {
             Restart();
@@ -133,7 +134,7 @@ public class PlayerMovement2d : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.linearVelocity = new Vector3(moveSpeed,rb.linearVelocity.y,0);
+        if(!frozen) rb.linearVelocity = new Vector3(moveSpeed,rb.linearVelocity.y,0);
         CheckHitWall();
         
     }

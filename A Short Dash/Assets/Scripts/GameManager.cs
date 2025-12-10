@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
 
     List<GameObject> feathers = new List<GameObject>();
+    List<GameObject> collectables = new List<GameObject>();
 
     public AudioClip song1;
     public AudioClip song2;
@@ -19,15 +20,20 @@ public class GameManager : MonoBehaviour
     public float moveSpeed = 12f;         // MUST match PlayerMovement.moveSpeed
     // =================================
 
+    LevelLoad levelLoad;
+
 
     void Start()
     {
+        levelLoad = FindFirstObjectByType<LevelLoad>().GetComponent<LevelLoad>();
         audioSource = gameObject.GetComponent<AudioSource>();
         followCam = Camera.main.GetComponent<FollowCam>();
         player = GameObject.FindGameObjectWithTag("Player").gameObject;
         GameObject.FindGameObjectsWithTag("feather",feathers);
+        collectables.Clear();
+        GameObject.FindGameObjectsWithTag("collectables",collectables);
         ResetFeathers();
-        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
         /*if(SceneManager.GetActiveScene().name == "First Zone Scene")
         {
             PlayerPrefs.SetInt("FinishedFirstLevel",1);
@@ -53,6 +59,7 @@ public class GameManager : MonoBehaviour
                 feather.SetActive(false);
             }
         }
+
         
     }
     void Update()
@@ -69,21 +76,14 @@ public class GameManager : MonoBehaviour
 
 
         // ======= OPTIONAL TEST KEY (REMOVE IF YOU WANT) =======
-        if (Input.GetKeyDown(KeyCode.M))
+        /*if (Input.GetKeyDown(KeyCode.M))
             SyncMusicToPlayerPos(); // press M to sync manually anytime
         // ======================================================
+*/
 
-
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().name!= "Mountain Base Scene")
         {
-            if(SceneManager.GetActiveScene().name == "Level 1")
-            {
-                SceneManager.LoadScene("Mountain Base Scene");
-            }
-            if(SceneManager.GetActiveScene().name == "Level 2")
-            {
-                SceneManager.LoadScene("First Zone Scene");
-            }
+            SceneManager.LoadScene("Mountain Base Scene");
         }
     }
 
@@ -102,6 +102,12 @@ public class GameManager : MonoBehaviour
         ResetFeathers();
         // If reset respawns player → sync music to new position automatically
         SyncMusicToPlayerPos();
+        foreach(GameObject obj in collectables)
+            {
+                obj.SetActive(true);
+            }
+        levelLoad.collectableList.Clear();
+
     }
 
     public void SetNewSong(AudioClip newClip)
