@@ -51,6 +51,14 @@ public class LevelLoad : MonoBehaviour
 
     void UpdateCollectables()
     {
+        if(collectableList.Count == 0)
+        {
+            objectText.text = "";
+        }
+        if(collectableList.Count == 1)
+        {
+            objectText.text = "You got this item:";
+        }
         foreach(GameObject obj in collectableList){
             if (obj.GetComponent<Coin>())
             {
@@ -97,6 +105,7 @@ public class LevelLoad : MonoBehaviour
             {
                 levelCompleteSource.PlayOneShot(levelCompleteClip, levelCompleteVolume);
             }
+            playerMovement2D.frozen = true;
             ending = true;
             canvas.SetActive(true);
             UpdateCollectables();

@@ -18,6 +18,11 @@ public class GameManager : MonoBehaviour
     [Header("Music Sync Settings")]
     public Transform levelStartPoint;     // assign empty object at level start
     public float moveSpeed = 12f;         // MUST match PlayerMovement.moveSpeed
+
+    [SerializeField]
+    Material daySkyboxMaterial,nightSkyboxMaterial;
+    [SerializeField]
+    GameObject dayDirectionalLight,nightDirectionalLight;
     // =================================
 
     LevelLoad levelLoad;
@@ -25,6 +30,21 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        if(SceneManager.GetActiveScene().name=="Mountain Base Scene")
+        {
+            if (PlayerPrefs.GetInt("FinishedSecondLevel") == 0)
+            {
+                RenderSettings.skybox = daySkyboxMaterial;
+                dayDirectionalLight.SetActive(true);
+                nightDirectionalLight.SetActive(false);
+            }
+            if (PlayerPrefs.GetInt("FinishedSecondLevel") == 1)
+            {
+                RenderSettings.skybox = nightSkyboxMaterial;
+                dayDirectionalLight.SetActive(false);
+                nightDirectionalLight.SetActive(true);
+            }
+        }
         levelLoad = FindFirstObjectByType<LevelLoad>().GetComponent<LevelLoad>();
         audioSource = gameObject.GetComponent<AudioSource>();
         followCam = Camera.main.GetComponent<FollowCam>();
