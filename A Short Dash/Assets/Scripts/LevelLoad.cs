@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoad : MonoBehaviour
 {
+    [SerializeField] private AudioClip levelCompleteClip;
+    [SerializeField, Range(0f,1f)] private float levelCompleteVolume = 0.9f;
+    private AudioSource levelCompleteSource;
+
     [SerializeField]
     string sceneToLoadNext;
 
@@ -29,6 +33,8 @@ public class LevelLoad : MonoBehaviour
         collectableList.Clear();
         canvas.SetActive(false);
         itemGotBox.SetActive(false);
+        levelCompleteSource = gameObject.AddComponent<AudioSource>();
+        levelCompleteSource.loop = false;
     }
 
     // Update is called once per frame
@@ -87,6 +93,10 @@ public class LevelLoad : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            if (levelCompleteClip != null)
+            {
+                levelCompleteSource.PlayOneShot(levelCompleteClip, levelCompleteVolume);
+            }
             ending = true;
             canvas.SetActive(true);
             UpdateCollectables();

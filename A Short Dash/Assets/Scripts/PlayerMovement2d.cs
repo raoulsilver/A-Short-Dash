@@ -6,10 +6,17 @@ public class PlayerMovement2d : MonoBehaviour
     public bool frozen = false;
     [SerializeField]
     private float moveSpeed,jumpVelocity,jumpTimeMultiplier,extraGravity;
+    [SerializeField] private CameraShake cameraShake;
 
     public bool grounded;
     Rigidbody2D rb;
     SpriteRenderer spriteRenderer;
+    [SerializeField] private AudioClip jumpClip;
+    [SerializeField] private AudioClip walkClip;
+    private AudioSource walkSource;
+    private AudioSource jumpSource;
+    [SerializeField, Range(0f,1f)] private float jumpVolume = 0.8f;
+    [SerializeField, Range(0f,1f)] private float walkVolume = 0.6f;
     [SerializeField]
     private int maxNumOfExtraJumps;
     private int numOfExtraJumps;
@@ -36,11 +43,18 @@ public class PlayerMovement2d : MonoBehaviour
         maxNumOfExtraJumps = PlayerPrefs.GetInt("Feathers");
         numOfExtraJumps = maxNumOfExtraJumps;
         rb = gameObject.GetComponent<Rigidbody2D>();
+        walkSource = gameObject.AddComponent<AudioSource>();
+        walkSource.loop = true;
+
+        jumpSource = gameObject.AddComponent<AudioSource>();
+        jumpSource.loop = false;
         lastX2 = transform.position.x;
     }
 
     void Restart()
     {
+        if (cameraShake != null)
+            StartCoroutine(cameraShake.Shake(0.8f, 0.85f));
         transform.position = restartTransform.position;
         numOfExtraJumps = maxNumOfExtraJumps;
         gameManager.Reset();
@@ -57,6 +71,9 @@ public class PlayerMovement2d : MonoBehaviour
             {
                 //Debug.Log("test");
                 rb.linearVelocity = new Vector3(rb.linearVelocity.x,jumpVelocity);
+                jumpSource.PlayOneShot(jumpClip, jumpVolume);
+                if (walkSource.isPlaying)
+                    walkSource.Stop();
                 numOfExtraJumps -=1;
                 if(numOfExtraJumps <= 0)
                 {
@@ -99,6 +116,9 @@ public class PlayerMovement2d : MonoBehaviour
             }
             grounded = false;
             rb.linearVelocity = new Vector3(rb.linearVelocity.x,jumpVelocity);
+            jumpSource.PlayOneShot(jumpClip, jumpVolume);
+            if (walkSource.isPlaying)
+                walkSource.Stop();
             //rb.AddForce(transform.up* (2.8f - 0f - (Physics2D.gravity * 1f) * .4f * .4f * 0.5f)/.4f));
             if(numOfExtraJumps <= 0)
             {
@@ -113,6 +133,16 @@ public class PlayerMovement2d : MonoBehaviour
             rb.linearVelocity = vel;
         }
         
+        if (grounded && !walkSource.isPlaying && walkClip != null)
+        {
+            walkSource.clip = walkClip;
+            walkSource.volume = walkVolume;
+            walkSource.Play();
+        }
+        else if (!grounded && walkSource.isPlaying)
+        {
+            walkSource.Stop();
+        }
        
        //Vector3 movement = new vector3(moveSpeed * Time.deltaTime, transform.position.y, transform.position.z);
        
