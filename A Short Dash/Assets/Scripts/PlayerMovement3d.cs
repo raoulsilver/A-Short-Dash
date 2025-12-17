@@ -56,6 +56,12 @@ public class PlayerMovement3d : MonoBehaviour
     Vector3 moveDirection;
 
     Rigidbody rb;
+    private Animator animator;
+
+    [Header("Audio")]
+    [SerializeField] private AudioClip footstepClip;
+    [SerializeField, Range(0f,1f)] private float footstepVolume = 0.7f;
+    private AudioSource footstepSource;
 
     public MovementState state;
     public bool frozen = false;
@@ -72,10 +78,18 @@ public class PlayerMovement3d : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+        animator = GetComponentInChildren<Animator>();
 
         readyToJump = true;
 
         startYScale = transform.localScale.y;
+
+        footstepSource = gameObject.AddComponent<AudioSource>();
+        footstepSource.clip = footstepClip;
+        footstepSource.loop = true;
+        footstepSource.playOnAwake = false;
+        footstepSource.spatialBlend = 0f;
+        footstepSource.volume = footstepVolume;
     }
 
     private void Update()
@@ -97,6 +111,21 @@ public class PlayerMovement3d : MonoBehaviour
             rb.linearDamping = groundDrag;
         else
             rb.linearDamping = 0;
+
+        bool isMoving = grounded && (horizontalInput != 0 || verticalInput != 0);
+        if (animator != null)
+        {
+            animator.SetBool("isWalking", isMoving);
+        }
+
+        if (isMoving && !footstepSource.isPlaying && footstepClip != null)
+        {
+            footstepSource.Play();
+        }
+        else if (!isMoving && footstepSource.isPlaying)
+        {
+            footstepSource.Stop();
+        }
     }
 
     private void FixedUpdate()
