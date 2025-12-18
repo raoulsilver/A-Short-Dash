@@ -6,6 +6,7 @@ public class PlayerInteract : MonoBehaviour
     bool canInteract = false;
     public bool frozen = false;
     bool collectingItem = false;
+    GameObject otherCanvas;
 
     void Start()
     {
@@ -38,12 +39,21 @@ public class PlayerInteract : MonoBehaviour
         {
             interactableObject = other.gameObject;
             canInteract = true;
+            Debug.Log(other.transform.parent);
+            otherCanvas=other.transform.parent.GetComponentInChildren<Canvas>(true).gameObject;
+            otherCanvas.SetActive(true);
+        }
+        if (other.gameObject.CompareTag("otherinteractable"))
+        {
+            other.GetComponentInChildren<House>().Interact();
         }
     }
     void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("interactable"))
         {
+            otherCanvas.SetActive(false);
+            otherCanvas = null;
             interactableObject = null;
             canInteract = false;
         }

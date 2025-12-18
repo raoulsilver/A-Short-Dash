@@ -16,6 +16,10 @@ public class AuntMay : TextWindowLoader
     {
         CheckDialogueState();
         base.StartText();
+        if(lineIdToDisplay == "auntMayEnding")
+        {
+            PlayerPrefs.SetInt("AuntMayFinishedSecondLevelYet",1);
+        }
         if (lineIdToDisplay == "auntMayIntro")
         {
             PlayerPrefs.SetInt("auntMayFirstTalked",1);
@@ -33,6 +37,11 @@ public class AuntMay : TextWindowLoader
 
     void CheckDialogueState()
     {
+        if(PlayerPrefs.GetInt("FinishedSecondLevel") == 1 && PlayerPrefs.GetInt("AuntMayFinishedSecondLevelYet") == 0)
+        {
+            lineIdToDisplay = "auntMayEnding";
+            return;
+        }
         if(PlayerPrefs.GetInt("auntMayQuestFinished")==1)
         {
             lineIdToDisplay = "auntMayAfterQuest";

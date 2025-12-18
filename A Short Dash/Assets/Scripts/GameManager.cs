@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
     private void SuperReset()
     {
         PlayerPrefs.DeleteAll();
-        SceneManager.LoadScene("Mountain Base Scene");
+        SceneManager.LoadScene("Title Screen");
     }
 
     public void Reset()
