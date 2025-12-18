@@ -6,6 +6,13 @@ using Unity.Mathematics;
 
 public class PlayerMovement3d : MonoBehaviour
 {
+    [SerializeField]
+    Material blueMaterial,redMateral;
+    [SerializeField]
+    GameObject hat;
+    [SerializeField]
+    GameObject after1Point,after2point;
+
         [SerializeField]
     float rotationSmooth;
 
@@ -65,6 +72,9 @@ public class PlayerMovement3d : MonoBehaviour
 
     public MovementState state;
     public bool frozen = false;
+
+    Color custBlue = new Color(0.2233593f,0.2330129f,0.3702503f);
+    Color custRed = new Color(0.7025235f,0.1595969f,0.1511034f);
     public enum MovementState
     {
         walking,
@@ -90,10 +100,34 @@ public class PlayerMovement3d : MonoBehaviour
         footstepSource.playOnAwake = false;
         footstepSource.spatialBlend = 0f;
         footstepSource.volume = footstepVolume;
+        if (PlayerPrefs.GetInt("LevelJustFinished") == 1)
+        {
+            transform.position = after1Point.transform.position;
+        }
+        if (PlayerPrefs.GetInt("LevelJustFinished") == 2)
+        {
+            transform.position = after2point.transform.position;
+        }
     }
 
     private void Update()
     {
+        if(PlayerPrefs.GetInt("hasHat")==1){
+            hat.SetActive(true);
+        }
+        else
+        {
+            hat.SetActive(false);
+        }
+        if (PlayerPrefs.GetInt("Feathers") <1)
+        {
+            blueMaterial.color=custBlue;
+        }
+        else
+        {
+            blueMaterial.color=custRed;
+        }
+
         // ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
 

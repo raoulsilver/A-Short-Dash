@@ -14,12 +14,16 @@ public class DiggableGround : TextWindowLoader
 
     public override void StartText()
     {
+        Debug.Log("test");
         if (PlayerPrefs.GetInt("hasShovel")== 1)
         {
             lineIdToDisplay = "digText";
             base.StartText();
             PlayerPrefs.SetInt(digSpotName,1);
             PlayerPrefs.SetInt("Coins",PlayerPrefs.GetInt("Coins")+1);
+            PlayerInteract.instance.canInteract=false;
+            gameObject.SetActive(false);
+
         }
         
     }

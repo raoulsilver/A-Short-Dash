@@ -18,6 +18,11 @@ public class GameManager : MonoBehaviour
     [Header("Music Sync Settings")]
     public Transform levelStartPoint;     // assign empty object at level start
     public float moveSpeed = 12f;         // MUST match PlayerMovement.moveSpeed
+
+    [SerializeField]
+    Material daySkyboxMaterial,nightSkyboxMaterial;
+    [SerializeField]
+    GameObject dayDirectionalLight,nightDirectionalLight;
     // =================================
 
     LevelLoad levelLoad;
@@ -25,6 +30,21 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        if(SceneManager.GetActiveScene().name=="Mountain Base Scene")
+        {
+            if (PlayerPrefs.GetInt("FinishedSecondLevel") == 0)
+            {
+                RenderSettings.skybox = daySkyboxMaterial;
+                dayDirectionalLight.SetActive(true);
+                nightDirectionalLight.SetActive(false);
+            }
+            if (PlayerPrefs.GetInt("FinishedSecondLevel") == 1)
+            {
+                RenderSettings.skybox = nightSkyboxMaterial;
+                dayDirectionalLight.SetActive(false);
+                nightDirectionalLight.SetActive(true);
+            }
+        }
         levelLoad = FindFirstObjectByType<LevelLoad>().GetComponent<LevelLoad>();
         audioSource = gameObject.GetComponent<AudioSource>();
         followCam = Camera.main.GetComponent<FollowCam>();
@@ -83,6 +103,14 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().name!= "Mountain Base Scene")
         {
+            if(SceneManager.GetActiveScene().name == "Level 1")
+            {
+                PlayerPrefs.SetInt("LevelJustFinished",1);
+            }
+            if(SceneManager.GetActiveScene().name == "Level 2")
+            {
+                PlayerPrefs.SetInt("LevelJustFinished",2);
+            }
             SceneManager.LoadScene("Mountain Base Scene");
         }
     }
@@ -91,7 +119,7 @@ public class GameManager : MonoBehaviour
     private void SuperReset()
     {
         PlayerPrefs.DeleteAll();
-        SceneManager.LoadScene("Mountain Base Scene");
+        SceneManager.LoadScene("Title Screen");
     }
 
     public void Reset()

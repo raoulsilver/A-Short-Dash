@@ -30,6 +30,16 @@ public class Coin : MonoBehaviour
             PlayerPrefs.SetInt(coinName,1);
             PlayerPrefs.SetInt("Coins",PlayerPrefs.GetInt("Coins")+1);
             gameObject.SetActive(false);
+            if (collectClip != null)
+            {
+                GameObject temp = new GameObject("CollectSound");
+                AudioSource src = temp.AddComponent<AudioSource>();
+                src.clip = collectClip;
+                src.volume = collectVolume;
+                src.spatialBlend = 0f;
+                src.Play();
+                Destroy(temp, collectClip.length);
+            }
         }
     }
     void OnTriggerEnter2D(Collider2D other)

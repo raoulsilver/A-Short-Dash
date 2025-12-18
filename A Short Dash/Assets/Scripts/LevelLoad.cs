@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -44,6 +43,14 @@ public class LevelLoad : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                if(SceneManager.GetActiveScene().name == "Level 1")
+                {
+                    PlayerPrefs.SetInt("LevelJustFinished",1);
+                }
+                if(SceneManager.GetActiveScene().name == "Level 2")
+                {
+                    PlayerPrefs.SetInt("LevelJustFinished",2);
+                }
                 SceneManager.LoadScene("Mountain Base Scene");
             }
         }
@@ -51,6 +58,14 @@ public class LevelLoad : MonoBehaviour
 
     void UpdateCollectables()
     {
+        if(collectableList.Count == 0)
+        {
+            objectText.text = "";
+        }
+        if(collectableList.Count == 1)
+        {
+            objectText.text = "You got this item:";
+        }
         foreach(GameObject obj in collectableList){
             if (obj.GetComponent<Coin>())
             {
@@ -97,6 +112,7 @@ public class LevelLoad : MonoBehaviour
             {
                 levelCompleteSource.PlayOneShot(levelCompleteClip, levelCompleteVolume);
             }
+            playerMovement2D.frozen = true;
             ending = true;
             canvas.SetActive(true);
             UpdateCollectables();

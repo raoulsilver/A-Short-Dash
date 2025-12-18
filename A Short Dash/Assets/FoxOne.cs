@@ -41,7 +41,7 @@ public class FoxOne : TextWindowLoader
             lineIdToDisplay="fox2NoKey";
             return;
         }
-        if (PlayerPrefs.GetInt("fox1FirstTalked") == 1 && PlayerPrefs.GetInt("hasKey")==0)
+        if (PlayerPrefs.GetInt("fox1FirstTalked") == 1 && PlayerPrefs.GetInt("hasKey")==1)
         {
             lineIdToDisplay="fox2YesKey";
             return;

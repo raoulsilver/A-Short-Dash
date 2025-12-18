@@ -3,6 +3,7 @@ using UnityEngine.UIElements;
 
 public class PlayerMovement2d : MonoBehaviour
 {
+    TrailRenderer trailRenderer;
     public bool frozen = false;
     [SerializeField]
     private float moveSpeed,jumpVelocity,jumpTimeMultiplier,extraGravity;
@@ -35,10 +36,18 @@ public class PlayerMovement2d : MonoBehaviour
 
     [SerializeField]
     GameManager gameManager;
-    Color custBlue = new Color(0.3304557f,0.725712f,0.8867924f);
-    Color custRed = new Color(0.8862745f,0.3294118f,0.4891949f);
+    Color custBlue = new Color(0.2233593f,0.2330129f,0.3702503f);
+    Color custRed = new Color(0.7025235f,0.1595969f,0.1511034f);
+    [SerializeField]
+    Material claireMaterial;
+
+    [SerializeField]
+    Color trailRed = new Color(0.8679245f,0.3070488f,0.4388918f);
+    [SerializeField]
+    Color trailBlue = new Color(0.3058823f,0.6289006f,0.8666667f);
     void Start()
     {
+        trailRenderer = GetComponentInChildren<TrailRenderer>();
         GetComponent<MeshRenderer>().material = redMaterial;
         maxNumOfExtraJumps = PlayerPrefs.GetInt("Feathers");
         numOfExtraJumps = maxNumOfExtraJumps;
@@ -49,6 +58,7 @@ public class PlayerMovement2d : MonoBehaviour
         jumpSource = gameObject.AddComponent<AudioSource>();
         jumpSource.loop = false;
         lastX2 = transform.position.x;
+        claireMaterial.SetColor("_BaseColor",custRed);
     }
 
     void Restart()
@@ -59,12 +69,23 @@ public class PlayerMovement2d : MonoBehaviour
         numOfExtraJumps = maxNumOfExtraJumps;
         gameManager.Reset();
         grounded = true;
+        claireMaterial.SetColor("_BaseColor",custRed);
     }
 
     void Update()
     {
-        
         //Extra Jump Check
+        if (numOfExtraJumps > 0)
+        {
+            claireMaterial.SetColor("_BaseColor",custRed);
+            trailRenderer.material.color = trailRed;
+        }
+        
+        if(numOfExtraJumps < 1)
+            {
+                claireMaterial.SetColor("_BaseColor",custBlue);
+                trailRenderer.material.color = trailBlue;
+            }
         if(Input.GetKeyDown(KeyCode.Space) && !grounded && !frozen)
         {
             if(numOfExtraJumps > 0)
@@ -110,13 +131,10 @@ public class PlayerMovement2d : MonoBehaviour
         if(Input.GetKey(KeyCode.Space) && grounded && !frozen)
         {
             frameCount = 0;
-            if(numOfExtraJumps < 1)
-            {
-                GetComponent<MeshRenderer>().material = blueMaterial;
-            }
+
             grounded = false;
             rb.linearVelocity = new Vector3(rb.linearVelocity.x,jumpVelocity);
-            jumpSource.PlayOneShot(jumpClip, jumpVolume);
+            //jumpSource.PlayOneShot(jumpClip, jumpVolume);
             if (walkSource.isPlaying)
                 walkSource.Stop();
             //rb.AddForce(transform.up* (2.8f - 0f - (Physics2D.gravity * 1f) * .4f * .4f * 0.5f)/.4f));
@@ -137,11 +155,11 @@ public class PlayerMovement2d : MonoBehaviour
         {
             walkSource.clip = walkClip;
             walkSource.volume = walkVolume;
-            walkSource.Play();
+            //walkSource.Play();
         }
         else if (!grounded && walkSource.isPlaying)
         {
-            walkSource.Stop();
+            //walkSource.Stop();
         }
        
        //Vector3 movement = new vector3(moveSpeed * Time.deltaTime, transform.position.y, transform.position.z);
@@ -155,7 +173,7 @@ public class PlayerMovement2d : MonoBehaviour
     void CheckHitWall()
     {
         //Debug.Log(transform.position.x-lastX);
-        if(transform.position.x-lastX <=0)
+        if(transform.position.x-lastX <=0 && !frozen)
         {
             Restart();
         }
@@ -164,7 +182,13 @@ public class PlayerMovement2d : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(!frozen) rb.linearVelocity = new Vector3(moveSpeed,rb.linearVelocity.y,0);
+        if(!frozen) {
+            rb.linearVelocity = new Vector3(moveSpeed,rb.linearVelocity.y,0);
+        }
+        if (frozen)
+        {
+            rb.linearVelocity = new Vector3(0,0,0);
+        }
         CheckHitWall();
         
     }

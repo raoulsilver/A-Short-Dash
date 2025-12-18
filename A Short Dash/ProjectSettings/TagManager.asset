@@ -9,6 +9,7 @@ TagManager:
   - feather
   - interactable
   - collectables
+  - otherinteractable
   layers:
   - Default
   - TransparentFX
