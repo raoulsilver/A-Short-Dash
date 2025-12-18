@@ -3,6 +3,7 @@ using UnityEngine.UIElements;
 
 public class PlayerMovement2d : MonoBehaviour
 {
+    TrailRenderer trailRenderer;
     public bool frozen = false;
     [SerializeField]
     private float moveSpeed,jumpVelocity,jumpTimeMultiplier,extraGravity;
@@ -39,8 +40,14 @@ public class PlayerMovement2d : MonoBehaviour
     Color custRed = new Color(0.7025235f,0.1595969f,0.1511034f);
     [SerializeField]
     Material claireMaterial;
+
+    [SerializeField]
+    Color trailRed = new Color(0.8679245f,0.3070488f,0.4388918f);
+    [SerializeField]
+    Color trailBlue = new Color(0.3058823f,0.6289006f,0.8666667f);
     void Start()
     {
+        trailRenderer = GetComponentInChildren<TrailRenderer>();
         GetComponent<MeshRenderer>().material = redMaterial;
         maxNumOfExtraJumps = PlayerPrefs.GetInt("Feathers");
         numOfExtraJumps = maxNumOfExtraJumps;
@@ -71,11 +78,13 @@ public class PlayerMovement2d : MonoBehaviour
         if (numOfExtraJumps > 0)
         {
             claireMaterial.SetColor("_BaseColor",custRed);
+            trailRenderer.material.color = trailRed;
         }
         
         if(numOfExtraJumps < 1)
             {
                 claireMaterial.SetColor("_BaseColor",custBlue);
+                trailRenderer.material.color = trailBlue;
             }
         if(Input.GetKeyDown(KeyCode.Space) && !grounded && !frozen)
         {
@@ -125,7 +134,7 @@ public class PlayerMovement2d : MonoBehaviour
 
             grounded = false;
             rb.linearVelocity = new Vector3(rb.linearVelocity.x,jumpVelocity);
-            jumpSource.PlayOneShot(jumpClip, jumpVolume);
+            //jumpSource.PlayOneShot(jumpClip, jumpVolume);
             if (walkSource.isPlaying)
                 walkSource.Stop();
             //rb.AddForce(transform.up* (2.8f - 0f - (Physics2D.gravity * 1f) * .4f * .4f * 0.5f)/.4f));
@@ -146,11 +155,11 @@ public class PlayerMovement2d : MonoBehaviour
         {
             walkSource.clip = walkClip;
             walkSource.volume = walkVolume;
-            walkSource.Play();
+            //walkSource.Play();
         }
         else if (!grounded && walkSource.isPlaying)
         {
-            walkSource.Stop();
+            //walkSource.Stop();
         }
        
        //Vector3 movement = new vector3(moveSpeed * Time.deltaTime, transform.position.y, transform.position.z);

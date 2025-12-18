@@ -103,6 +103,14 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().name!= "Mountain Base Scene")
         {
+            if(SceneManager.GetActiveScene().name == "Level 1")
+            {
+                PlayerPrefs.SetInt("LevelJustFinished",1);
+            }
+            if(SceneManager.GetActiveScene().name == "Level 2")
+            {
+                PlayerPrefs.SetInt("LevelJustFinished",2);
+            }
             SceneManager.LoadScene("Mountain Base Scene");
         }
     }

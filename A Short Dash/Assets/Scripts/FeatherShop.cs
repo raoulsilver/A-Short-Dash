@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.IO;
-using Mono.Cecil.Cil;
 using UnityEngine;
 
 public class FeatherShop : TextWindowLoader
@@ -35,7 +34,7 @@ public class FeatherShop : TextWindowLoader
         }
         if(lineIdToDisplay == "dog1HatYesMoney")
         {
-            PlayerPrefs.SetInt("Coins",PlayerPrefs.GetInt("Coins")-3);
+            PlayerPrefs.SetInt("Coins",PlayerPrefs.GetInt("Coins")-5);
             PlayerPrefs.SetInt("hasHat",1);
             PlayerPrefs.SetInt("HatQuestFinished",1);
         }
@@ -93,12 +92,12 @@ public class FeatherShop : TextWindowLoader
                 lineIdToDisplay = "dog1StartHatQuest";
                 return;
             }
-            if (PlayerPrefs.GetInt("HatQuestAlreadyStarted") == 1 && PlayerPrefs.GetInt("Coins")<3)
+            if (PlayerPrefs.GetInt("HatQuestAlreadyStarted") == 1 && PlayerPrefs.GetInt("Coins")<5)
             {
                 lineIdToDisplay = "dog1HatNoMoney";
                 return;
             }
-            if (PlayerPrefs.GetInt("HatQuestAlreadyStarted") == 1 && PlayerPrefs.GetInt("Coins")==3)
+            if (PlayerPrefs.GetInt("HatQuestAlreadyStarted") == 1 && PlayerPrefs.GetInt("Coins")==5)
             {
                 lineIdToDisplay = "dog1HatYesMoney";
                 return;

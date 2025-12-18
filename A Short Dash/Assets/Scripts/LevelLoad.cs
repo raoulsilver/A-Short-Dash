@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -44,6 +43,14 @@ public class LevelLoad : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                if(SceneManager.GetActiveScene().name == "Level 1")
+                {
+                    PlayerPrefs.SetInt("LevelJustFinished",1);
+                }
+                if(SceneManager.GetActiveScene().name == "Level 2")
+                {
+                    PlayerPrefs.SetInt("LevelJustFinished",2);
+                }
                 SceneManager.LoadScene("Mountain Base Scene");
             }
         }

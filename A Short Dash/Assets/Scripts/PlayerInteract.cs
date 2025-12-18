@@ -3,14 +3,15 @@ using UnityEngine;
 public class PlayerInteract : MonoBehaviour
 {
     GameObject interactableObject;
-    bool canInteract = false;
+    public bool canInteract = false;
     public bool frozen = false;
     bool collectingItem = false;
     GameObject otherCanvas;
+    public static PlayerInteract instance;
 
     void Start()
     {
-        
+        instance = this;
     }
 
 
@@ -18,6 +19,10 @@ public class PlayerInteract : MonoBehaviour
     {
         if(!frozen && canInteract && Input.GetKeyDown(KeyCode.Space))
         {
+            if (interactableObject.GetComponent<House>())
+            {
+                interactableObject.GetComponent<House>().Interact();
+            }
             interactableObject.GetComponent<TextWindowLoader>().StartText();
         }
         if (!frozen)
@@ -42,10 +47,6 @@ public class PlayerInteract : MonoBehaviour
             Debug.Log(other.transform.parent);
             otherCanvas=other.transform.parent.GetComponentInChildren<Canvas>(true).gameObject;
             otherCanvas.SetActive(true);
-        }
-        if (other.gameObject.CompareTag("otherinteractable"))
-        {
-            other.GetComponentInChildren<House>().Interact();
         }
     }
     void OnTriggerExit(Collider other)

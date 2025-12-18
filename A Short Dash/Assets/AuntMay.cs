@@ -57,12 +57,12 @@ public class AuntMay : TextWindowLoader
             lineIdToDisplay = "auntMayGiveQuest";
             return;
         }
-        if(PlayerPrefs.GetInt("auntMayQuestGiven")==1 && PlayerPrefs.GetInt("gotChips") == 0)
+        if(PlayerPrefs.GetInt("auntMayQuestGiven")==1 && PlayerPrefs.GetInt("hasChips") == 0)
         {
             lineIdToDisplay = "auntMayQuestIdle";
             return;
         }
-        if(PlayerPrefs.GetInt("auntMayQuestGiven")==1 && PlayerPrefs.GetInt("gotChips") == 1)
+        if(PlayerPrefs.GetInt("auntMayQuestGiven")==1 && PlayerPrefs.GetInt("hasChips") == 1)
         {
             lineIdToDisplay = "auntMayQuestFinish";
             return;
